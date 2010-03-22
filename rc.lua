@@ -118,37 +118,31 @@ taskbuttons = awful.util.table.join(
 -- Global bindings
 globalkeys = awful.util.table.join(
     -- Tags manipulation
-    awful.key({ winkey,           }, "Left"   , awful.tag.viewprev                               ),
-    awful.key({ winkey,           }, "Right"  , awful.tag.viewnext                               ),
+    awful.key({ altkey, "Control" }, "Left"   , awful.tag.viewprev                               ),
+    awful.key({ altkey, "Control" }, "Right"  , awful.tag.viewnext                               ),
     awful.key({ winkey,           }, "Escape" , awful.tag.history.restore                        ),
     -- Layout manipulation
-    awful.key({ winkey,           }, "space"  , function () awful.layout.inc(layouts, 1)      end),
-    awful.key({ winkey, "Shift"   }, "space"  , function () awful.layout.inc(layouts, -1)     end),
-    awful.key({ winkey, "Shift"   }, "j"      , function () awful.client.swap.byidx(1)        end),
-    awful.key({ winkey, "Shift"   }, "k"      , function () awful.client.swap.byidx(-1)       end),
-    awful.key({ winkey, "Control" }, "j"      , function () awful.screen.focus_relative(1)    end),
-    awful.key({ winkey, "Control" }, "k"      , function () awful.screen.focus_relative(-1)   end),
-    awful.key({ winkey,           }, "u"      , awful.client.urgent.jumpto                       ),
-    awful.key({ altkey,           }, "Tab"    ,
+    awful.key({ winkey,           }, "Tab"    , function () awful.layout.inc(layouts, 1)      end),
+    awful.key({ winkey, "Shift"   }, "Tab"    , function () awful.layout.inc(layouts, -1)     end),
+    -- Client frame manipulation
+    awful.key({ winkey, "Control" }, "Left"   , function () awful.client.swap.byidx(1)        end),
+    awful.key({ winkey, "Control" }, "Right"  , function () awful.client.swap.byidx(-1)       end),
+    awful.key({         "Control" }, "Tab"    ,
         function ()
             awful.client.focus.history.previous()
             if client.focus then
                 client.focus:raise()
             end
         end),
-    -- Client frame manipulation
-    awful.key({ winkey,           }, "l"      , function () awful.tag.incmwfact(0.05)         end),
-    awful.key({ winkey,           }, "h"      , function () awful.tag.incmwfact(-0.05)        end),
-    awful.key({ winkey, "Shift"   }, "h"      , function () awful.tag.incnmaster(1)           end),
-    awful.key({ winkey, "Shift"   }, "l"      , function () awful.tag.incnmaster(-1)          end),
-    awful.key({ winkey, "Control" }, "h"      , function () awful.tag.incncol(1)              end),
-    awful.key({ winkey, "Control" }, "l"      , function () awful.tag.incncol(-1)             end),
-    awful.key({ winkey,           }, "j"      ,
+    awful.key({ winkey,           }, "Right"  , function () awful.tag.incmwfact(0.05)         end),
+    awful.key({ winkey,           }, "Left"   , function () awful.tag.incmwfact(-0.05)        end),
+    -- Focus manipulation
+    awful.key({ altkey,           }, "Tab"      ,
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ winkey,           }, "k"      ,
+    awful.key({         "Shift"   }, "Tab"      ,
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
@@ -172,7 +166,7 @@ globalkeys = awful.util.table.join(
             awful.util.getdir("cache") .. "/history_eval")
         end),
     -- Main menu
-    awful.key({ "Control"         }, "Escape" , function () mymainmenu:show(true)             end)
+    awful.key({         "Control" }, "Escape" , function () mymainmenu:show(true)             end)
 )
 -- Switch tags by number bindings (limited to 9)
 keynumber = 0
@@ -212,9 +206,8 @@ end
 clientkeys = awful.util.table.join(
     awful.key({ winkey,           }, "F11"    , function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ altkey            }, "F4"     , function (c) c:kill()                         end),
-    awful.key({ winkey, "Control" }, "space"  , awful.client.floating.toggle                     ),
-    awful.key({ winkey, "Control" }, "Return" , function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ winkey,           }, "o"      , awful.client.movetoscreen                        ),
+    awful.key({ winkey,           }, "space"  , awful.client.floating.toggle                     ),
+    awful.key({         "Control" }, "Return" , function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ winkey, "Shift"   }, "r"      , function (c) c:redraw()                       end),
     awful.key({ winkey,           }, "c"      , function (c) c.minimized = not c.minimized    end),
     awful.key({ winkey,           }, "f"      ,
