@@ -73,7 +73,7 @@ layoutbuttons = awful.util.table.join(
     awful.button({                }, 5        , function () awful.layout.inc(layouts, -1)     end)
 )
 -- Taglist widget buttons
-tagtbuttons = awful.util.table.join(
+tagbuttons = awful.util.table.join(
     awful.button({                }, 1        , awful.tag.viewonly                               ),
     awful.button({ winkey         }, 1        , awful.client.movetotag                           ),
     awful.button({                }, 3        , awful.tag.viewtoggle                             ),
