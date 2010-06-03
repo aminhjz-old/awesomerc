@@ -17,11 +17,11 @@ beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 -----------------------------
 -- Preferred applications section
 -----------------------------
-terminal = "urxvt"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR")
 browser = "firefox"
 mailer = "thunderbird"
-fileman = "pcmanfm"
+fileman = terminal .. " -e mc"
 xlocker = "slock"
 
 -----------------------------
