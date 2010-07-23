@@ -22,6 +22,7 @@ editor = os.getenv("EDITOR")
 browser = "firefox"
 mailer = "thunderbird"
 fileman = terminal .. " -e mc"
+modeler = "blender"
 xlocker = "slock"
 
 -----------------------------
@@ -152,6 +153,7 @@ globalkeys = awful.util.table.join(
     awful.key({ winkey            }, "x"      , awesome.quit                                     ),
     awful.key({ winkey,           }, "Return" , function () awful.util.spawn(terminal)        end),
     awful.key({ winkey,           }, "l"      , function () awful.util.spawn(xlocker)         end),
+    awful.key({ winkey,           }, "b"      , function () awful.util.spawn(modeler)         end),
     awful.key({ winkey,           }, "e"      , function () awful.util.spawn(fileman)         end),
     awful.key({ winkey,           }, "i"      , function () awful.util.spawn(browser)         end),
     awful.key({ winkey,           }, "m"      , function () awful.util.spawn(mailer)          end),
