@@ -12,7 +12,7 @@ require("naughty")
 -----------------------------
 -- Theme section
 -----------------------------
-beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/zenburn/theme.lua")
 
 -----------------------------
 -- Preferred applications section

@@ -1,2 +1,4 @@
+xmodmap -e 'clear Lock'
+xmodmap -e 'keysym Caps_Lock = Escape'
 urxvtd -q -o -f
-bin32 skype &
+skype &
