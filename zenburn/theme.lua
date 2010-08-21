@@ -8,7 +8,7 @@
 
 -- {{{ Main
 theme = {}
-theme.wallpaper_cmd = { "awsetbg -u feh " .. awful.util.getdir("config") .. "/zenburn/zenburn-background.png" }
+--theme.wallpaper_cmd = { "awsetbg -u feh " .. awful.util.getdir("config") .. "/zenburn/zenburn-background.png" }
 -- }}}
 
 -- {{{ Styles
