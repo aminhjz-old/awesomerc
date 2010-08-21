@@ -308,6 +308,9 @@ client.add_signal("manage", function (c, startup)
     -- Add a titlebar
     --awful.titlebar.add(c, { winkey = winkey })
 
+    -- Do not honor size hints
+    c.honorsizehints = false
+
     if not startup then
         -- Set the windows at the slave,
         -- i.e. put it at the end of others instead of setting it master.
