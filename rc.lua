@@ -12,18 +12,19 @@ require("naughty")
 -----------------------------
 -- Theme section
 -----------------------------
-beautiful.init(awful.util.getdir("config") .. "/zenburn/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -----------------------------
 -- Preferred applications section
 -----------------------------
+browser  = "firefox"
+dmenu    = "dmenu_run -b -nb '#3f3f3f' -nf '#dcdccc' -sb '#1e2320' -sf '#f0dfaf' -fa 'sans-10'"
+editor   = os.getenv("EDITOR")
+mailer   = "thunderbird"
+modeler  = "blender"
 terminal = "urxvtc"
-editor = os.getenv("EDITOR")
-browser = "firefox"
-mailer = "thunderbird"
-fileman = terminal .. " -e mc"
-modeler = "blender"
-xlocker = "slock"
+fileman  = terminal .. " -e mc"
+xlocker  = "slock"
 
 -----------------------------
 -- Keyboard modifiers section
@@ -158,7 +159,8 @@ globalkeys = awful.util.table.join(
     awful.key({ winkey,           }, "i"      , function () awful.util.spawn(browser)         end),
     awful.key({ winkey,           }, "m"      , function () awful.util.spawn(mailer)          end),
     -- Command prompt
-    awful.key({ winkey            }, "r"      , function () mypromptbox[mouse.screen]:run()   end),
+  --awful.key({ winkey            }, "r"      , function () mypromptbox[mouse.screen]:run()   end),
+    awful.key({ winkey            }, "r"      , function () awful.util.spawn(dmenu)           end),
     -- Lua command prompt
     awful.key({ winkey, "Shift"   }, "q"      ,
         function ()
@@ -309,7 +311,7 @@ client.add_signal("manage", function (c, startup)
     --awful.titlebar.add(c, { winkey = winkey })
 
     -- Do not honor size hints
-    c.honorsizehints = false
+    c.size_hints_honor = false
 
     if not startup then
         -- Set the windows at the slave,
