@@ -47,8 +47,8 @@ layouts = {
 -- Tags section
 -----------------------------
 tags = {
-   names  = { "main",     "devel",    "net",      "media" },
-   layout = { layouts[1], layouts[1], layouts[1], layouts[1] }
+   names  = { "main",     "devel",    "net",      "media",    "blender" },
+   layout = { layouts[1], layouts[1], layouts[1], layouts[5], layouts[5] }
 }
 
 for s = 1, screen.count() do
@@ -139,20 +139,7 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey,
                "Control"    }, "r"         , awesome.restart                                  ),
    awful.key({ winkey       }, "x"         , awesome.quit                                     ),
-   -- Tags manipulation
-   awful.key({ altkey,
-               "Control"    }, "Left"      , awful.tag.viewprev                               ),
-   awful.key({ altkey,
-               "Control"    }, "Right"     , awful.tag.viewnext                               ),
-   awful.key({ winkey       }, "Escape"    , awful.tag.history.restore                        ),
-   -- Layout manipulation
-   awful.key({ winkey       }, "Tab"       , function ()
-                                                awful.layout.inc(layouts, 1)
-                                             end                                              ),
-   awful.key({ winkey,
-               "Shift"      }, "Tab"       , function ()
-                                                awful.layout.inc(layouts, -1)
-                                             end                                              ),
+
    -- Client frame manipulation
    awful.key({ winkey,
                "Control"    }, "Left"      , function ()
@@ -161,12 +148,6 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey,
                "Control"    }, "Right"     , function ()
                                                 awful.client.swap.byidx(-1)
-                                             end                                              ),
-   awful.key({ "Control"    }, "Tab"       , function ()
-                                                awful.client.focus.history.previous()
-                                                if client.focus then
-                                                   client.focus:raise()
-                                                end
                                              end                                              ),
    awful.key({ winkey       }, "Right"     , function ()
                                                 awful.tag.incmwfact(0.05)
@@ -181,7 +162,7 @@ globalkeys = awful.util.table.join(
                                                    client.focus:raise()
                                                 end
                                              end                                              ),
-   awful.key({ "Shift"      }, "Tab"       , function ()
+   awful.key({ winkey       }, "Tab"       , function ()
                                                 awful.client.focus.byidx(-1)
                                                 if client.focus then
                                                    client.focus:raise()
@@ -206,13 +187,52 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "m"         , function ()
                                                 awful.util.spawn(mailer)
                                              end                                              ),
-   -- Command prompt
    awful.key({ winkey       }, "r"         , function ()
                                                 awful.util.spawn(dmenu)
                                              end                                              ),
    -- Main menu
    awful.key({ "Control"    }, "Escape"    , function ()
                                                 mymainmenu:show(true)
+                                             end                                              ),
+   -- Media keys
+   awful.key({ },  "XF86MonBrightnessDown" , function ()
+                                                awful.util.spawn("backlight-osd lower &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86MonBrightnessUp"   , function ()
+                                                awful.util.spawn("backlight-osd raise &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioRaiseVolume"  , function ()
+                                                awful.util.spawn("mixer-osd volup &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioLowerVolume"  , function ()
+                                                awful.util.spawn("mixer-osd voldown &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioPause"        , function ()
+                                                awful.util.spawn("audio-osd pause &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioStop"         , function ()
+                                                awful.util.spawn("audio-osd stop &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioPlay"         , function ()
+                                                awful.util.spawn("audio-osd play &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioPrev"         , function ()
+                                                awful.util.spawn("audio-osd prev &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioNext"         , function ()
+                                                awful.util.spawn("audio-osd next &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86AudioMute"         , function ()
+                                                awful.util.spawn("mixer-osd mute &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86Launch1"           , function ()
+                                                awful.util.spawn("launch1-osd next &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86Suspend"           , function ()
+                                                awful.util.spawn("suspend-osd &>/dev/null")
+                                             end                                              ),
+   awful.key({ },  "XF86Display"           , function ()
+                                                awful.util.spawn("display-osd &>/dev/null")
                                              end                                              )
 )
 
@@ -368,11 +388,21 @@ awful.rules.rules = {
    },
    { -- Blender
       rule = { class = "Blender" },
-      properties = { floating = true }
+      properties = {
+         floating = true,
+         tag = tags[1][5]
+      }
    },
    { -- MPlayer
       rule = { class = "MPlayer" },
       properties = { floating = true }
+   },
+   { -- FreeRDP
+      rule = { name = "freerdp" },
+      properties = {
+         floating = true,
+         tag = tags[1][3]
+      }
    },
    { -- Skype
       rule = { class = "Skype" },
@@ -392,6 +422,10 @@ awful.rules.rules = {
       callback = function(c)
                     if awful.client.floating.get(c) then
                        c.size_hints_honor = true
+                       if not c.size_hints.user_position
+                          and not c.size_hints.program_position then
+                          awful.placement.centered(c)
+                       end
                     else
                        c.size_hints_honor = false
                     end
@@ -402,21 +436,23 @@ awful.rules.rules = {
 -----------------------------
 -- Signals
 -----------------------------
--- Client appears
-client.add_signal("manage" , function (c, startup)
-                                if not startup then
-                                   -- Place windows without size hints to screen center
-                                   if not c.size_hints.user_position
-                                      and not c.size_hints.program_position then
-                                      awful.placement.centered(c)
-                                   end
-                                end
-                             end)
+-- Client's floating property changed
+client.add_signal("property::floating", function (c)
+                                 if awful.client.floating.get(c) then
+                                    if not c.size_hints.user_position
+                                       and not c.size_hints.program_position then
+                                       awful.placement.centered(c)
+                                    else
+                                       awful.placemenu.no_offscreen(c)
+                                       awful.placement.no_overlap(c)
+                                    end
+                                 end
+                              end)
 -- Focus
-client.add_signal("focus"  , function(c)
-                                c.border_color = beautiful.border_focus
-                             end)
+client.add_signal("focus"   , function(c)
+                                 c.border_color = beautiful.border_focus
+                              end)
 -- Unfocus
-client.add_signal("unfocus", function(c)
-                                c.border_color = beautiful.border_normal
-                             end)
+client.add_signal("unfocus" , function(c)
+                                 c.border_color = beautiful.border_normal
+                              end)
