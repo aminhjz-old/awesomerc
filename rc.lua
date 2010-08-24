@@ -69,7 +69,7 @@ globalbuttons = awful.util.table.join(
 -- Client's buttons
 clientbuttons = awful.util.table.join(
    awful.button({           }, 1           , function (c)
-                                                awful.client.focus = c;
+                                                client.focus = c;
                                                 c:raise()
                                              end                                              ),
    awful.button({ winkey    }, 1           , awful.mouse.client.move                          ),
@@ -105,7 +105,7 @@ taskbuttons = awful.util.table.join(
                                                 if not c:isvisible() then
                                                    awful.tag.viewonly(c:tags()[1])
                                                 end
-                                                awful.client.focus = c
+                                                client.focus = c
                                                 c:raise()
                                              end                                              ),
    awful.button({           }, 3           , function ()
@@ -118,14 +118,14 @@ taskbuttons = awful.util.table.join(
                                              end                                              ),
    awful.button({           }, 4           , function ()
                                                 awful.client.focus.byidx(1)
-                                                if awful.client.focus then
-                                                   awful.client.focus:raise()
+                                                if client.focus then
+                                                   client.focus:raise()
                                                 end
                                              end                                              ),
    awful.button({           }, 5           , function ()
                                                 awful.client.focus.byidx(-1)
-                                                if awful.client.focus then
-                                                   awful.client.focus:raise()
+                                                if client.focus then
+                                                   client.focus:raise()
                                                 end
                                              end                                              )
 )
@@ -164,8 +164,8 @@ globalkeys = awful.util.table.join(
                                              end                                              ),
    awful.key({ "Control"    }, "Tab"       , function ()
                                                 awful.client.focus.history.previous()
-                                                if awful.client.focus then
-                                                   awful.client.focus:raise()
+                                                if client.focus then
+                                                   client.focus:raise()
                                                 end
                                              end                                              ),
    awful.key({ winkey       }, "Right"     , function ()
@@ -177,14 +177,14 @@ globalkeys = awful.util.table.join(
    -- Focus manipulation
    awful.key({ altkey       }, "Tab"       , function ()
                                                 awful.client.focus.byidx( 1)
-                                                if awful.client.focus then
-                                                   awful.client.focus:raise()
+                                                if client.focus then
+                                                   client.focus:raise()
                                                 end
                                              end                                              ),
    awful.key({ "Shift"      }, "Tab"       , function ()
                                                 awful.client.focus.byidx(-1)
-                                                if awful.client.focus then
-                                                   awful.client.focus:raise()
+                                                if client.focus then
+                                                   client.focus:raise()
                                                 end
                                              end                                              ),
    -- Standard program
@@ -240,16 +240,16 @@ for i = 1, keynumber do
       awful.key({ altkey,
                   "Shift"   }, "#" .. i + 9, function ()
                                                 if awful.client.focus
-                                                   and tags[awful.client.focus.screen][i] then
-                                                   awful.client.movetotag(tags[awful.client.focus.screen][i])
+                                                   and tags[client.focus.screen][i] then
+                                                   awful.client.movetotag(tags[client.focus.screen][i])
                                                 end
                                              end                                              ),
       awful.key({ altkey   ,
                   "Control",
                   "Shift"   }, "#" .. i + 9, function ()
                                                 if awful.client.focus
-                                                   and tags[awful.client.focus.screen][i] then
-                                                   awful.client.toggletag(tags[awful.client.focus.screen][i])
+                                                   and tags[client.focus.screen][i] then
+                                                   awful.client.toggletag(tags[client.focus.screen][i])
                                                 end
                                              end                                              )
    )
