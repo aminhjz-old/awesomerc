@@ -8,6 +8,7 @@ require("awful.tooltip")
 require("awful.placement")
 require("beautiful")
 require("naughty")
+require("tools.smartplace")
 
 -----------------------------
 -- Theme section
@@ -368,11 +369,16 @@ end
 -----------------------------
 -- On floating state toggled
 function floating_toggled(c)
-   c.size_hints_honor = awful.client.floating.get(c)
-   if not c.size_hints.user_position
-      and not c.size_hints.program_position then
-      awful.placement.no_overlap(c)
-      awful.placement.no_offscreen(c)
+   local l_isfloat = awful.layout.get() == awful.layout.suit.floating
+   local c_isfloat = awful.client.floating.get(c)
+   if l_isfloat or c_isfloat then
+      c.size_hints_honor = true
+      if not c.size_hints.user_position
+         and not c.size_hints.program_position then
+         smartplace(c)
+      end
+   else
+      c.size_hints_honor = false
    end
 end
 
@@ -452,11 +458,17 @@ awful.rules.rules = {
 -- Signals
 -----------------------------
 -- New client appears
-client.add_signal("manage"  , function (c, startup)
+client.add_signal("manage"  , function(c, startup)
                                  c:add_signal("property::floating", floating_toggled)
                               end)
 -- Tagged
-client.add_signal("tagged"  , floating_toggled)
+client.add_signal("tagged"  , function(c)
+                                 floating_toggled(c)
+                              end)
+-- Untagged
+client.add_signal("untagged", function(c)
+                                 floating_toggled(c)
+                              end)
 
 -- Focus
 client.add_signal("focus"   , function(c)
