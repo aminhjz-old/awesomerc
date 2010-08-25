@@ -48,7 +48,7 @@ layouts = {
 -----------------------------
 tags = {
    names  = { "main",     "devel",    "net",      "media",    "blender" },
-   layout = { layouts[1], layouts[1], layouts[1], layouts[5], layouts[5] }
+   layout = { layouts[1], layouts[1], layouts[1], layouts[5], layouts[1] }
 }
 
 for s = 1, screen.count() do
@@ -364,9 +364,29 @@ for s = 1, screen.count() do
 end
 
 -----------------------------
+--- Functions
+-----------------------------
+-- On floating state toggled
+function floating_toggled(c)
+   c.size_hints_honor = awful.client.floating.get(c)
+   if not c.size_hints.user_position
+      and not c.size_hints.program_position then
+      awful.placement.no_overlap(c)
+      awful.placement.no_offscreen(c)
+   end
+end
+
+-----------------------------
 -- Window rules
 -----------------------------
 awful.rules.rules = {
+   { -- Thunderbird
+      rule = { class = "Thunderbird" },
+      properties = {
+         switchtotag = true,
+         tag = tags[1][3]
+      }
+   },
    { -- Firefox -> Preferences
       rule = { class = "Firefox", role = "Preferences" },
       properties = { floating = true }
@@ -377,11 +397,15 @@ awful.rules.rules = {
    },
    { -- Firefox -> any
       rule = { class = "Firefox" },
-      properties = { tag = tags[1][3] }
+      properties = {
+         switchtotag = true,
+         tag = tags[1][3]
+      }
    },
    { -- Audacious
       rule = { class = "Audacious" },
       properties = {
+         switchtotag = true,
          floating = true,
          tag = tags[1][4]
       }
@@ -389,7 +413,7 @@ awful.rules.rules = {
    { -- Blender
       rule = { class = "Blender" },
       properties = {
-         floating = true,
+         switchtotag = true,
          tag = tags[1][5]
       }
    },
@@ -400,6 +424,7 @@ awful.rules.rules = {
    { -- FreeRDP
       rule = { name = "freerdp" },
       properties = {
+         switchtotag = true,
          floating = true,
          tag = tags[1][3]
       }
@@ -419,35 +444,20 @@ awful.rules.rules = {
          keys = clientkeys,
          focus = true
       },
-      callback = function(c)
-                    if awful.client.floating.get(c) then
-                       c.size_hints_honor = true
-                       if not c.size_hints.user_position
-                          and not c.size_hints.program_position then
-                          awful.placement.centered(c)
-                       end
-                    else
-                       c.size_hints_honor = false
-                    end
-                 end
+      callback = floating_toggled
    },
 }
 
 -----------------------------
 -- Signals
 -----------------------------
--- Client's floating property changed
-client.add_signal("property::floating", function (c)
-                                 if awful.client.floating.get(c) then
-                                    if not c.size_hints.user_position
-                                       and not c.size_hints.program_position then
-                                       awful.placement.centered(c)
-                                    else
-                                       awful.placemenu.no_offscreen(c)
-                                       awful.placement.no_overlap(c)
-                                    end
-                                 end
+-- New client appears
+client.add_signal("manage"  , function (c, startup)
+                                 c:add_signal("property::floating", floating_toggled)
                               end)
+-- Tagged
+client.add_signal("tagged"  , floating_toggled)
+
 -- Focus
 client.add_signal("focus"   , function(c)
                                  c.border_color = beautiful.border_focus
