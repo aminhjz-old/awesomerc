@@ -48,8 +48,8 @@ layouts = {
 -- Tags section
 -----------------------------
 tags = {
-   names  = { "main",     "devel",    "net",      "media",    "blender" },
-   layout = { layouts[1], layouts[1], layouts[1], layouts[5], layouts[1] }
+   names  = { "main",     "devel",    "net",      "blender", "media" },
+   layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[5] }
 }
 
 for s = 1, screen.count() do
@@ -421,14 +421,14 @@ awful.rules.rules = {
       properties = {
          switchtotag = true,
          floating = true,
-         tag = tags[1][4]
+         tag = tags[1][5]
       }
    },
    { -- Blender
       rule = { class = "Blender" },
       properties = {
          switchtotag = true,
-         tag = tags[1][5]
+         tag = tags[1][4]
       }
    },
    { -- MPlayer
