@@ -386,7 +386,15 @@ end
 -- Window rules
 -----------------------------
 awful.rules.rules = {
-   { -- Thunderbird
+   { -- Thunderbird -> Preferences
+      rule = { class = "Thunderbird", role = "Preferences" },
+      properties = { floating = true }
+   },
+   { -- Thunderbird -> Manager (Download, Extension)
+      rule = { class = "Thunderbird", role = "Manager" },
+      properties = { floating = true }
+   },
+   { -- Thunderbird -> any
       rule = { class = "Thunderbird" },
       properties = {
          switchtotag = true,
