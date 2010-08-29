@@ -8,6 +8,7 @@ require("awful.tooltip")
 require("awful.placement")
 require("beautiful")
 require("naughty")
+require('tools.calendar')
 require("tools.smartplace")
 
 -----------------------------
@@ -342,6 +343,7 @@ mywibox     = {}
 mylayoutbox = {}
 mytaglist   = {}
 mytasklist  = {}
+
 for s = 1, screen.count() do
    -- Create widgets
    mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -368,6 +370,8 @@ for s = 1, screen.count() do
       layout = awful.widget.layout.horizontal.rightleft
    }
 end
+
+tools.calendar.addCalendarToWidget(mytextclock, "<span color='green'>%s</span>")
 
 -----------------------------
 --- Functions
