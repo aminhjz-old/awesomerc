@@ -25,7 +25,12 @@ browser  = "firefox"
 mailer   = "thunderbird"
 editor   = os.getenv("EDITOR")
 fileman  = terminal .. " -e mc"
-dmenu    = "dmenu_run -b -nb '#3f3f3f' -nf '#dcdccc' -sb '#1e2320' -sf '#f0dfaf' -fa 'sans-10'"
+dmenu    = "dmenu_run -b -i -p 'Run command:'"
+   .. " -nb '" .. beautiful.bg_normal
+   .. "' -nf '" .. beautiful.fg_normal
+   .. "' -sb '" .. beautiful.bg_focus
+   .. "' -sf '" .. beautiful.fg_focus
+   .. "'"
 
 -----------------------------
 -- Keyboard modifiers section
