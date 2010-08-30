@@ -26,11 +26,11 @@ browser  = "firefox"
 mailer   = "thunderbird"
 editor   = os.getenv("EDITOR")
 fileman  = terminal .. " -e mc"
-dmenu    = "dmenu_run -b -i -p 'Run command:'"
-   .. " -nb '" .. beautiful.bg_normal
-   .. "' -nf '" .. beautiful.fg_normal
-   .. "' -sb '" .. beautiful.bg_focus
+dmenu    = "dmenu_run -b -i -p 'Run command:' -fa 'Sans-10'"
+   .. "  -sb '" .. beautiful.bg_focus
    .. "' -sf '" .. beautiful.fg_focus
+   .. "' -nb '" .. beautiful.bg_normal
+   .. "' -nf '" .. beautiful.fg_normal
    .. "'"
 
 -----------------------------
