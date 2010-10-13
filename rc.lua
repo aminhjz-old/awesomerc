@@ -55,7 +55,7 @@ layouts = {
 -----------------------------
 tags = {
    names  = { "main",     "devel",    "net",      "blender", "media" },
-   layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[5] }
+   layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 }
 
 for s = 1, screen.count() do
@@ -397,11 +397,15 @@ end
 awful.rules.rules = {
    { -- Thunderbird -> Preferences
       rule = { class = "Thunderbird", role = "Preferences" },
-      properties = { floating = true }
+      properties = {
+          floating = true
+      }
    },
    { -- Thunderbird -> Manager (Download, Extension)
       rule = { class = "Thunderbird", role = "Manager" },
-      properties = { floating = true }
+      properties = {
+          floating = true
+      }
    },
    { -- Thunderbird -> any
       rule = { class = "Thunderbird" },
@@ -412,11 +416,15 @@ awful.rules.rules = {
    },
    { -- Firefox -> Preferences
       rule = { class = "Firefox", role = "Preferences" },
-      properties = { floating = true }
+      properties = {
+          floating = true
+      }
    },
    { -- Firefox -> Manager (Download, Extension)
       rule = { class = "Firefox", role = "Manager" },
-      properties = { floating = true }
+      properties = {
+          floating = true
+      }
    },
    { -- Firefox -> any
       rule = { class = "Firefox" },
@@ -424,25 +432,6 @@ awful.rules.rules = {
          switchtotag = true,
          tag = tags[1][3]
       }
-   },
-   { -- Audacious
-      rule = { class = "Audacious" },
-      properties = {
-         switchtotag = true,
-         floating = true,
-         tag = tags[1][5]
-      }
-   },
-   { -- Blender
-      rule = { class = "Blender" },
-      properties = {
-         switchtotag = true,
-         tag = tags[1][4]
-      }
-   },
-   { -- MPlayer
-      rule = { class = "MPlayer" },
-      properties = { floating = true }
    },
    { -- FreeRDP
       rule = { name = "freerdp" },
@@ -454,7 +443,31 @@ awful.rules.rules = {
    },
    { -- Skype
       rule = { class = "Skype" },
-      properties = { floating = true }
+      properties = {
+          floating = true
+      }
+   },
+   { -- MPlayer
+      rule = { class = "MPlayer" },
+      properties = {
+         switchtotag = true,
+         floating = true,
+         tag = tags[1][5]
+     }
+   },
+   { -- Sonata
+      rule = { class = "Sonata" },
+      properties = {
+         switchtotag = true,
+         tag = tags[1][5]
+      }
+   },
+   { -- Blender
+      rule = { class = "Blender" },
+      properties = {
+         switchtotag = true,
+         tag = tags[1][4]
+      }
    },
    { -- Any
       rule = { },
