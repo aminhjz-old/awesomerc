@@ -146,7 +146,6 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey,
                "Control"    }, "r"         , awesome.restart                                  ),
    awful.key({ winkey       }, "x"         , awesome.quit                                     ),
-
    -- Client frame manipulation
    awful.key({ winkey,
                "Control"    }, "Left"      , function ()
@@ -357,8 +356,8 @@ for s = 1, screen.count() do
    mywibox[s] = awful.wibox({ position = "top", screen = s })
    mywibox[s].widgets = {
       {
-         mylauncher,
          mytaglist[s],
+         mylauncher,
          layout = awful.widget.layout.horizontal.leftright
       },
       mylayoutbox[s],
