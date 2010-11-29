@@ -26,7 +26,7 @@ browser  = "firefox"
 mailer   = "thunderbird"
 editor   = os.getenv("EDITOR")
 fileman  = terminal .. " -e mc"
-dmenu    = "dmenu_run -b -i -p 'Run command:' -fa 'Sans-10'"
+dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'Sans-10'"
    .. "  -sb '" .. beautiful.bg_focus
    .. "' -sf '" .. beautiful.fg_focus
    .. "' -nb '" .. beautiful.bg_normal
@@ -453,13 +453,6 @@ awful.rules.rules = {
          floating = true,
          tag = tags[1][5]
      }
-   },
-   { -- Sonata
-      rule = { class = "Sonata" },
-      properties = {
-         switchtotag = true,
-         tag = tags[1][5]
-      }
    },
    { -- Blender
       rule = { class = "Blender" },
