@@ -2,7 +2,7 @@
 theme                         = {}
 
 -- Styles
-theme.font                    = "sans 10"
+theme.font                    = "terminus 9"
 
 -- Colors
 theme.fg_normal               = "#DCDCCC"
