@@ -10,6 +10,9 @@ require("beautiful")
 require("naughty")
 require('tools.calendar')
 require("tools.smartplace")
+-- Freedesktop stuff
+require('freedesktop.utils')
+require('freedesktop.menu')
 
 -----------------------------
 -- Theme section
@@ -314,23 +317,24 @@ root.keys(globalkeys)
 -----------------------------
 -- Widgets section
 -----------------------------
+-- applications menu
+freedesktop.utils.terminal = terminal
+freedesktop.utils.icon_theme = "Tango"
+
 -- Awesome specific menu
 myawesomemenu = {
-   { "manual"     , terminal .. " -e man awesome"                             },
-   { "edit config", editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
-   { "restart"    , awesome.restart                                           },
-   { "quit"       , awesome.quit                                              }
+   { "manual", terminal .. " -e man awesome", freedesktop.utils.lookup_icon({ icon = 'help' }) },
+   { "edit config", editor .. " " .. awful.util.getdir("config") .. "/rc.lua", freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { "restart", awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { "quit", awesome.quit, freedesktop.utils.lookup_icon({ icon = 'gtk-quit' }) }
 }
 
+-- XDG menu
+xdgmenu = freedesktop.menu.new()
+table.insert(xdgmenu, { "awesome", myawesomemenu, beautiful.awesome_icon })
+
 -- Main menu
-mymainmenu = awful.menu(
-   {
-      items = {
-         { "awesome"      , myawesomemenu, beautiful.awesome_icon },
-         { "open terminal", terminal                              }
-      }
-   }
-)
+mymainmenu = awful.menu.new({ items = xdgmenu })
 
 -- Main menu button, clock & systray are singletons
 mylauncher  = awful.widget.launcher({ image = image(beautiful.awesome_icon), menu = mymainmenu })
@@ -356,8 +360,8 @@ for s = 1, screen.count() do
    mywibox[s] = awful.wibox({ position = "top", screen = s })
    mywibox[s].widgets = {
       {
-         mytaglist[s],
          mylauncher,
+         mytaglist[s],
          layout = awful.widget.layout.horizontal.leftright
       },
       mylayoutbox[s],
@@ -370,7 +374,7 @@ for s = 1, screen.count() do
    }
 end
 
-tools.calendar.addCalendarToWidget(mytextclock, "<span color='green'>%s</span>")
+tools.calendar.addCalendarToWidget(mytextclock, "<span color='red'>%s</span>")
 
 -----------------------------
 --- Functions
