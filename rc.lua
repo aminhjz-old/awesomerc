@@ -337,7 +337,7 @@ table.insert(xdgmenu, { "awesome", myawesomemenu, beautiful.awesome_icon })
 mymainmenu = awful.menu.new({ items = xdgmenu })
 
 -- Main menu button, clock & systray are singletons
-mylauncher  = awful.widget.launcher({ image = image(beautiful.awesome_icon), menu = mymainmenu })
+mylauncher  = awful.widget.launcher({ image = image(beautiful.gentoo_icon), menu = mymainmenu })
 mytextclock = awful.widget.textclock({ align = "right" })
 mysystray   = widget({ type = "systray" })
 
