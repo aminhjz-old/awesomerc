@@ -4,6 +4,7 @@ local io = io
 local table = table
 local ipairs = ipairs
 local pairs = pairs
+local os = os
 
 module("freedesktop.utils")
 
@@ -75,6 +76,8 @@ function lookup_icon(arg)
             end
         end
         -- lowest priority fallbacks
+        table.insert(icon_path, os.getenv("HOME") .. '/.pixmaps/' )
+        table.insert(icon_path, os.getenv("HOME") .. '/.icons/' )
         table.insert(icon_path,  '/usr/share/pixmaps/')
         table.insert(icon_path,  '/usr/share/icons/')
 
@@ -127,7 +130,7 @@ function load_mime_types()
                 for w in line:gmatch('[^%s]+') do
                     table.insert(parsed, w)
                 end
-                if #parsed > 1 then 
+                if #parsed > 1 then
                     for i = 2, #parsed do
                         mime_types[parsed[i]] = parsed[1]:gsub('/', '-')
                     end

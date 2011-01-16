@@ -54,7 +54,6 @@ theme.taglist_squares_unsel   = awful.util.getdir("config") .. "/icons/taglist/s
 theme.taglist_squares_resize  = "false"
 
 -- Misc
-theme.gentoo_icon             = awful.util.getdir("config") .. "/icons/gentoo.png"
 theme.awesome_icon            = awful.util.getdir("config") .. "/icons/awesome.png"
 theme.menu_submenu_icon       = awful.util.getdir("config") .. "/icons/submenu.png"
 theme.tasklist_floating_icon  = awful.util.getdir("config") .. "/icons/tasklist/floatingw.png"
