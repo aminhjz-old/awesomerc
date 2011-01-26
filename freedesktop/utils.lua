@@ -77,7 +77,7 @@ function lookup_icon(arg)
         end
         -- lowest priority fallbacks
         table.insert(icon_path, os.getenv("HOME") .. '/.pixmaps/' )
-        table.insert(icon_path, os.getenv("HOME") .. '/.icons/' )
+        table.insert(icon_path, os.getenv("XDG_DATA_HOME") .. '/icons/' )
         table.insert(icon_path,  '/usr/share/pixmaps/')
         table.insert(icon_path,  '/usr/share/icons/')
 
