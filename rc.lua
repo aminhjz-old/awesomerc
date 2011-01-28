@@ -506,3 +506,6 @@ client.add_signal("unfocus" , function(c)
                                  c.border_color = beautiful.border_normal
                                  c.opacity = 0.75
                               end)
+
+-- Set WM name for Java based apps
+awful.util.spawn("wmname LG3D")
