@@ -29,7 +29,7 @@ browser  = "firefox"
 mailer   = "thunderbird"
 editor   = os.getenv("EDITOR")
 fileman  = terminal .. " -e mc"
-compmgr  = "bash -c 'if ! pgrep xcompmgr &>/dev/null ; then (xcompmgr -n -F &>/dev/null &) ; fi'"
+compmgr  = "bash -c 'PID=$(pgrep -u $USER xcompmgr); [ -z $PID ] && (xcompmgr -n -F &>/dev/null &) || kill $PID'"
 dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-9'"
    .. "  -sb '" .. beautiful.bg_focus
    .. "' -sf '" .. beautiful.fg_focus
