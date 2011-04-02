@@ -29,6 +29,7 @@ browser  = "firefox"
 mailer   = "thunderbird"
 editor   = os.getenv("EDITOR")
 fileman  = terminal .. " -e mc"
+compmgr  = "bash -c 'if ! pgrep xcompmgr &>/dev/null ; then (xcompmgr -n -F &>/dev/null &) ; fi'"
 dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-9'"
    .. "  -sb '" .. beautiful.bg_focus
    .. "' -sf '" .. beautiful.fg_focus
@@ -199,6 +200,9 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "r"         , function ()
                                                 awful.util.spawn(dmenu)
                                              end                                              ),
+   awful.key({ winkey       }, "c"         , function (c)
+                                                awful.util.spawn(compmgr)
+                                             end                                              ),
    -- Main menu
    awful.key({ "Control"    }, "Escape"    , function ()
                                                 mymainmenu:show(true)
@@ -301,9 +305,6 @@ clientkeys = awful.util.table.join(
    awful.key({ winkey,
                "Shift "     }, "r"         , function (c)
                                                 c:redraw()
-                                             end                                              ),
-   awful.key({ winkey       }, "c"         , function (c)
-                                                c.minimized = not c.minimized
                                              end                                              ),
    awful.key({ winkey       }, "f"         , function (c)
                                                 c.maximized_horizontal = not c.maximized_horizontal
