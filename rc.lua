@@ -348,7 +348,9 @@ membar:set_background_color(beautiful.fg_off_widget)
 membar:set_gradient_colors({beautiful.fg_widget,
                             beautiful.fg_center_widget,
                             beautiful.fg_end_widget})
+memtxt = widget({ type = "textbox" })
 vicious.register(membar, vicious.widgets.mem, "$1", 0.5)
+vicious.register(memtxt, vicious.widgets.mem, "$2", 0.5)
 
 -- Network usage
 dnicon = widget({ type = "imagebox" })
@@ -379,7 +381,7 @@ volbar:set_gradient_colors({ beautiful.fg_widget,
                              beautiful.fg_end_widget})
 vicious.cache(vicious.widgets.volume)
 vicious.register(volbar,    vicious.widgets.volume,  "$1",  0.5, "Master")
-vicious.register(volwidget, vicious.widgets.volume, " $1%", 0.5, "Master")
+vicious.register(volwidget, vicious.widgets.volume, " $2$1%", 0.5, "Master")
 volbar.widget:buttons(awful.util.table.join(
    awful.button({ }, 1, function () sexec("alsamixer") end),
    awful.button({ }, 4, function () exec("mixer-osd volup", false) end),
@@ -435,11 +437,11 @@ for s = 1, scount do
         },
         s == 1 and systray or nil,
         separator, datewidget   , dateicon       ,
-        separator, volwidget    , volbar.widget  , volicon,
-        separator, upicon       , netwidget      , dnicon,
+        separator, volwidget    , volbar.widget  , volicon    ,
         separator, batwidget    , baticon        ,
-        separator, membar.widget, memicon        ,
-        separator, tzswidget    , cpugraph.widget, cpuicon,
+        separator, upicon       , netwidget      , dnicon     ,
+        separator, memtxt       , membar.widget  , memicon    ,
+        separator, tzswidget    , cpugraph.widget, cpuicon    ,
         separator, promptbox[s] , { tasklist[s], ["layout"] = awful.widget.layout.rightleft },
         ["layout"] = awful.widget.layout.horizontal.rightleft
     }
