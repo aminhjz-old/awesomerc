@@ -166,16 +166,10 @@ globalkeys = awful.util.table.join(
        awful.completion.shell, awful.util.getdir("cache") .. "/history")
    end),
    awful.key({ altkey       }, "F1"        , function ()
-       awful.prompt.run({ prompt = "Translate [en]: " }, promptbox[mouse.screen].widget,
-       function (words)
-           tools.google.translate(words, "en", "ru")
-       end, nil, awful.util.getdir("cache") .. "/translate.en")
-   end),
-   awful.key({ altkey       }, "F2"        , function ()
        awful.prompt.run({ prompt = "Translate [ru]: " }, promptbox[mouse.screen].widget,
        function (words)
-           tools.google.translate(words, "ru", "en")
-       end, nil, awful.util.getdir("cache") .. "/translate.ru")
+           tools.google.translate(words, "en", "ru")
+       end, nil, awful.util.getdir("cache") .. "/translate")
    end),
 
    -- Client frame manipulation
