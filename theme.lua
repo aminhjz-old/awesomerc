@@ -12,7 +12,7 @@ theme.confdir       = awful.util.getdir("config")
 
 
 -- {{{ Styles
-theme.font      = "Profont 8"
+theme.font      = "Profont 9"
 
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
