@@ -338,7 +338,7 @@ cpuicon = widget({ type = "imagebox" })
 cpuicon.image = image(beautiful.widget_cpu)
 cpugraph  = awful.widget.graph()
 tzswidget = widget({ type = "textbox" })
-cpugraph:set_width(40):set_height(14)
+cpugraph:set_width(40):set_height(16)
 cpugraph:set_background_color(beautiful.fg_off_widget)
 cpugraph:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget,
                                                      beautiful.fg_center_widget,
@@ -350,14 +350,15 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 0.5, "thermal_zone0
 memicon = widget({ type = "imagebox" })
 memicon.image = image(beautiful.widget_mem)
 membar = awful.widget.progressbar()
-membar:set_width(40):set_height(14)
+membar:set_vertical(true):set_ticks(true)
+membar:set_height(16):set_width(8)
 membar:set_background_color(beautiful.fg_off_widget)
 membar:set_gradient_colors({beautiful.fg_widget,
                             beautiful.fg_center_widget,
                             beautiful.fg_end_widget})
 memtxt = widget({ type = "textbox" })
 vicious.register(membar, vicious.widgets.mem, "$1", 0.5)
-vicious.register(memtxt, vicious.widgets.mem, "$2", 0.5)
+vicious.register(memtxt, vicious.widgets.mem, "$2Mb", 0.5)
 
 -- Network usage
 dnicon = widget({ type = "imagebox" })
@@ -378,22 +379,13 @@ vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 0.5, "BAT0")
 -- Volume level
 volicon = widget({ type = "imagebox" })
 volicon.image = image(beautiful.widget_vol)
-volbar    = awful.widget.progressbar()
 volwidget = widget({ type = "textbox" })
-volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(14):set_width(8):set_ticks_size(2)
-volbar:set_background_color(beautiful.fg_off_widget)
-volbar:set_gradient_colors({ beautiful.fg_widget,
-                             beautiful.fg_center_widget,
-                             beautiful.fg_end_widget})
 vicious.cache(vicious.widgets.volume)
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  0.5, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $2$1%", 0.5, "Master")
-volbar.widget:buttons(awful.util.table.join(
-   awful.button({ }, 1, function () sexec("alsamixer") end),
+volwidget:buttons(awful.util.table.join(
+   awful.button({ }, 1, function () exec(terminal .. " -e alsamixer") end),
    awful.button({ }, 4, function () exec("mixer-osd volup", false) end),
    awful.button({ }, 5, function () exec("mixer-osd voldown", false) end)))
-volwidget:buttons(volbar.widget:buttons())
 
 -- Date and time
 dateicon = widget({ type = "imagebox" })
@@ -430,7 +422,7 @@ for s = 1, scount do
                                         taskbuttons)
     -- Create the wibox
     wibox[s] = awful.wibox({      screen = s,
-        fg = beautiful.fg_normal, height = 14,
+        fg = beautiful.fg_normal, height = 16,
         bg = beautiful.bg_normal, position = "top",
         border_color = beautiful.border_focus,
         border_width = beautiful.border_width
@@ -444,7 +436,7 @@ for s = 1, scount do
         },
         s == 1 and systray or nil,
         separator, datewidget   , dateicon       ,
-        separator, volwidget    , volbar.widget  , volicon    ,
+        separator, volwidget    , volicon        ,
         separator, batwidget    , baticon        ,
         separator, upicon       , netwidget      , dnicon     ,
         separator, memtxt       , membar.widget  , memicon    ,
