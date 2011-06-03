@@ -12,7 +12,7 @@ theme.confdir       = awful.util.getdir("config")
 
 
 -- {{{ Styles
-theme.font      = "terminus 9"
+theme.font      = "terminus 10"
 
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
