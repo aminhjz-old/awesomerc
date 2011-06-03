@@ -40,6 +40,12 @@ local mailer   = "thunderbird"
 local editor   = os.getenv("EDITOR")
 local fileman  = terminal .. " -e mc"
 local compmgr  = "bash -c 'PID=$(pgrep -u $USER xcompmgr); [ -z $PID ] && (xcompmgr -n -F &>/dev/null &) || kill $PID'"
+local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-9'"
+    .. "  -sb '" .. beautiful.bg_focus
+    .. "' -sf '" .. beautiful.fg_focus
+    .. "' -nb '" .. beautiful.bg_normal
+    .. "' -nf '" .. beautiful.fg_normal
+    .. "'"
 
 -----------------------------
 -- Keyboard modifiers section
@@ -160,11 +166,11 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "x"         , awesome.quit),
 
    -- Prompts: run, google-translate(en->ru, ru->en)
-   awful.key({ winkey       }, "r"         , function ()
-       awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
-       function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
-       awful.completion.shell, awful.util.getdir("cache") .. "/history")
-   end),
+   --awful.key({ winkey       }, "r"         , function ()
+   --    awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
+   --    function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
+   --    awful.completion.shell, awful.util.getdir("cache") .. "/history")
+   --end),
    awful.key({ altkey       }, "F1"        , function ()
        awful.prompt.run({ prompt = "Translate [ru]: " }, promptbox[mouse.screen].widget,
        function (words)
@@ -209,6 +215,7 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "e"         , function ()  exec(fileman) end),
    awful.key({ winkey       }, "i"         , function ()  exec(browser) end),
    awful.key({ winkey       }, "m"         , function ()  exec(mailer) end),
+   awful.key({ winkey       }, "r"         , function ()  exec(dmenu) end),
    awful.key({ winkey       }, "c"         , function (c) exec(compmgr) end),
 
    -- Main menu
