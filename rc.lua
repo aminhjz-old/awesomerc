@@ -525,6 +525,13 @@ awful.rules.rules = {
       }
    },
 
+   { -- QEMU
+      rule = { class = "qemu-system-x86_64" },
+      properties = {
+          floating = true
+      }
+   },
+
    { -- Skype
       rule = { class = "Skype" },
       properties = {
