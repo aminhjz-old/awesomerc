@@ -16,6 +16,7 @@ require("freedesktop.utils")
 require("scratch")              -- Scratchpad for Awesome
 require("tools.calendar")
 require("tools.google")
+require("tools.revelation")
 require("tools.smartplace")
 require("vicious")              -- Widgets library
 
@@ -25,6 +26,10 @@ require("vicious")              -- Widgets library
 beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 local home   = os.getenv("HOME")
+local exec   = awful.util.spawn
+awful.util.spawn = function (s)
+    exec(s, false)
+end
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
@@ -207,6 +212,7 @@ globalkeys = awful.util.table.join(
                                                    client.focus:raise()
                                                 end
                                              end),
+   awful.key({ "Control"    }, "Escape"    , tools.revelation.revelation),
 
    -- Standard program
    awful.key({ winkey       }, "Return"    , function ()  exec(terminal) end),
