@@ -40,7 +40,7 @@ local mailer   = "thunderbird"
 local editor   = os.getenv("EDITOR")
 local fileman  = terminal .. " -e mc"
 local compmgr  = "bash -c 'PID=$(pgrep -u $USER xcompmgr); [ -z $PID ] && (xcompmgr -n -F &>/dev/null &) || kill $PID'"
-local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-10'"
+local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-9'"
     .. "  -sb '" .. beautiful.bg_focus
     .. "' -sf '" .. beautiful.fg_focus
     .. "' -nb '" .. beautiful.bg_normal
