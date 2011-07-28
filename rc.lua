@@ -68,7 +68,7 @@ layouts = {
 -- Tags section
 -----------------------------
 tags = {
-   names  = { "MAIN",     "DEVEL",    "NET",      "BLEND",    "MEDIA" },
+   names  = { "MAI",      "DEV",      "NET",      "BLD",      "MED"      },
    layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 }
 for s = 1, screen.count() do
