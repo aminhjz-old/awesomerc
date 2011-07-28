@@ -11,12 +11,8 @@ require("awful.tooltip")
 require("beautiful")
 require("naughty")
 -- Custom modules
-require("freedesktop.menu")
-require("freedesktop.utils")
 require("scratch")              -- Scratchpad for Awesome
 require("tools.calendar")
-require("tools.google")
-require("tools.revelation")
 require("tools.smartplace")
 require("vicious")              -- Widgets library
 
@@ -85,9 +81,6 @@ end
 -----------------------------
 -- Global buttons
 globalbuttons = awful.util.table.join(
-   awful.button({           }, 3           , function ()
-                                                mainmenu:toggle()
-                                             end),
    awful.button({           }, 4           , awful.tag.viewnext),
    awful.button({           }, 5           , awful.tag.viewprev)
 )
@@ -170,19 +163,6 @@ globalkeys = awful.util.table.join(
                "Control"    }, "r"         , awesome.restart),
    awful.key({ winkey       }, "x"         , awesome.quit),
 
-   -- Prompts: run, google-translate(en->ru, ru->en)
-   --awful.key({ winkey       }, "r"         , function ()
-   --    awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
-   --    function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
-   --    awful.completion.shell, awful.util.getdir("cache") .. "/history")
-   --end),
-   awful.key({ altkey       }, "F1"        , function ()
-       awful.prompt.run({ prompt = "Translate [ru]: " }, promptbox[mouse.screen].widget,
-       function (words)
-           tools.google.translate(words, "en", "ru")
-       end, nil, awful.util.getdir("cache") .. "/translate")
-   end),
-
    -- Client frame manipulation
    awful.key({ winkey,
                "Control"    }, "Left"      , function ()
@@ -212,10 +192,9 @@ globalkeys = awful.util.table.join(
                                                    client.focus:raise()
                                                 end
                                              end),
-   awful.key({ "Control"    }, "Escape"    , tools.revelation.revelation),
 
    -- Standard program
-   awful.key({ winkey       }, "Return"    , function ()  exec(terminal) end),
+   awful.key({ winkey       }, "Return"    , function ()  scratch.drop(terminal, "bottom", nil, nil, 0.30) end),
    awful.key({ winkey       }, "l"         , function ()  exec(xlocker) end),
    awful.key({ winkey       }, "b"         , function ()  exec(modeler) end),
    awful.key({ winkey       }, "e"         , function ()  exec(fileman) end),
@@ -223,9 +202,6 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "m"         , function ()  exec(mailer) end),
    awful.key({ winkey       }, "r"         , function ()  exec(dmenu) end),
    awful.key({ winkey       }, "c"         , function (c) exec(compmgr) end),
-
-   -- Main menu
-   awful.key({ "Control"    }, "Escape"    , function ()  mainmenu:show(true) end),
 
    -- Media keys
    awful.key({ },  "XF86MonBrightnessDown" , function ()  exec("backlight-osd lower &>/dev/null") end),
@@ -318,27 +294,6 @@ root.keys(globalkeys)
 separator = widget({ type = "imagebox" })
 separator.image = image(beautiful.widget_sep)
 
--- Applications menu
-freedesktop.utils.terminal = terminal
-freedesktop.utils.icon_theme = "gnome"
-
--- Awesome specific menu
-awesomemenu = {
-   { "Configure", editor .. " " .. awful.util.getdir("config") .. "/rc.lua", freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
-   { "Restart", awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
-   { "Quit", awesome.quit, freedesktop.utils.lookup_icon({ icon = 'gtk-quit' }) }
-}
-
--- XDG menu
-xdgmenu = freedesktop.menu.new()
-table.insert(xdgmenu, { "Awesome", awesomemenu, beautiful.awesome_icon })
-
--- Main menu
-mainmenu = awful.menu.new({ items = xdgmenu })
-
--- App launcher
-launcher  = awful.widget.launcher({ image = image(beautiful.awesome_icon), menu = mainmenu })
-
 -- CPU usage and temperature
 cpuicon = widget({ type = "imagebox" })
 cpuicon.image = image(beautiful.widget_cpu)
@@ -349,8 +304,8 @@ cpugraph:set_background_color(beautiful.fg_off_widget)
 cpugraph:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget,
                                                      beautiful.fg_center_widget,
                                                      beautiful.fg_widget})
-vicious.register(cpugraph,  vicious.widgets.cpu,      "$1" , 0.5)
-vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 0.5, "thermal_zone0")
+vicious.register(cpugraph,  vicious.widgets.cpu,      "$1" , 1)
+vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 1, "thermal_zone0")
 
 -- Memory usage
 memicon = widget({ type = "imagebox" })
@@ -363,8 +318,8 @@ membar:set_gradient_colors({beautiful.fg_widget,
                             beautiful.fg_center_widget,
                             beautiful.fg_end_widget})
 memtxt = widget({ type = "textbox" })
-vicious.register(membar, vicious.widgets.mem, "$1", 0.5)
-vicious.register(memtxt, vicious.widgets.mem, "$2Mb", 0.5)
+vicious.register(membar, vicious.widgets.mem, "$1", 1)
+vicious.register(memtxt, vicious.widgets.mem, "$2Mb", 1)
 
 -- Network usage
 dnicon = widget({ type = "imagebox" })
@@ -374,20 +329,20 @@ upicon.image = image(beautiful.widget_netup)
 netwidget = widget({ type = "textbox" })
 vicious.register(netwidget, vicious.widgets.net, '<span color="'
                  .. beautiful.fg_netdn_widget ..'">${wlan0 down_kb}</span> <span color="'
-                 .. beautiful.fg_netup_widget ..'">${wlan0 up_kb}</span>', 0.5)
+                 .. beautiful.fg_netup_widget ..'">${wlan0 up_kb}</span>', 1)
 
 -- Battery state
 baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
 batwidget = widget({ type = "textbox" })
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 0.5, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$2%", 1, "BAT0")
 
 -- Volume level
 volicon = widget({ type = "imagebox" })
 volicon.image = image(beautiful.widget_vol)
 volwidget = widget({ type = "textbox" })
 vicious.cache(vicious.widgets.volume)
-vicious.register(volwidget, vicious.widgets.volume, " $2$1%", 0.5, "Master")
+vicious.register(volwidget, vicious.widgets.volume, "$2$1%", 1, "Master")
 volwidget:buttons(awful.util.table.join(
    awful.button({ }, 1, function () exec(terminal .. " -e alsamixer") end),
    awful.button({ }, 4, function () exec("mixer-osd volup", false) end),
@@ -404,20 +359,11 @@ systray = widget({ type = "systray" })
 
 -- Widget box
 wibox     = {}
-promptbox = {}
-layoutbox = {}
 taglist   = {}
 tasklist  = {}
 
 -- Add widgets to each screen
 for s = 1, scount do
-    -- Create a promptbox
-    promptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
-
-    -- Create a layoutbox
-    layoutbox[s] = awful.widget.layoutbox(s)
-    layoutbox[s]:buttons(layoutbuttons)
-
     -- Create the taglist
     taglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, tagbuttons)
 
@@ -437,8 +383,8 @@ for s = 1, scount do
     -- Add widgets to the wibox
     wibox[s].widgets = {
         {
-            launcher, taglist[s], layoutbox[s], separator,
-           ["layout"] = awful.widget.layout.horizontal.leftright
+            taglist[s], separator,
+            layout = awful.widget.layout.horizontal.leftright
         },
         s == 1 and systray or nil,
         separator, datewidget   , dateicon       ,
@@ -447,7 +393,7 @@ for s = 1, scount do
         separator, upicon       , netwidget      , dnicon     ,
         separator, memtxt       , membar.widget  , memicon    ,
         separator, tzswidget    , cpugraph.widget, cpuicon    ,
-        separator, promptbox[s] , { tasklist[s], ["layout"] = awful.widget.layout.rightleft },
+        separator, tasklist[s]  ,
         ["layout"] = awful.widget.layout.horizontal.rightleft
     }
 end
