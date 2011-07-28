@@ -11,7 +11,6 @@ require("awful.tooltip")
 require("beautiful")
 require("naughty")
 -- Custom modules
-require("scratch")              -- Scratchpad for Awesome
 require("tools.calendar")
 require("tools.smartplace")
 require("vicious")              -- Widgets library
@@ -194,7 +193,7 @@ globalkeys = awful.util.table.join(
                                              end),
 
    -- Standard program
-   awful.key({ winkey       }, "Return"    , function ()  scratch.drop(terminal, "bottom", nil, nil, 0.30) end),
+   awful.key({ winkey       }, "Return"    , function ()  exec(terminal) end),
    awful.key({ winkey       }, "l"         , function ()  exec(xlocker) end),
    awful.key({ winkey       }, "b"         , function ()  exec(modeler) end),
    awful.key({ winkey       }, "e"         , function ()  exec(fileman) end),
@@ -305,7 +304,6 @@ cpugraph:set_gradient_angle(0):set_gradient_colors({ beautiful.fg_end_widget,
                                                      beautiful.fg_center_widget,
                                                      beautiful.fg_widget})
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1" , 1)
-vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 1, "thermal_zone0")
 
 -- Memory usage
 memicon = widget({ type = "imagebox" })
@@ -335,7 +333,7 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
 baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
 batwidget = widget({ type = "textbox" })
-vicious.register(batwidget, vicious.widgets.bat, "$2%", 1, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$2%", 15, "BAT0")
 
 -- Volume level
 volicon = widget({ type = "imagebox" })
@@ -392,7 +390,7 @@ for s = 1, scount do
         separator, batwidget    , baticon        ,
         separator, upicon       , netwidget      , dnicon     ,
         separator, memtxt       , membar.widget  , memicon    ,
-        separator, tzswidget    , cpugraph.widget, cpuicon    ,
+        separator,                cpugraph.widget, cpuicon    ,
         separator, tasklist[s]  ,
         ["layout"] = awful.widget.layout.horizontal.rightleft
     }
