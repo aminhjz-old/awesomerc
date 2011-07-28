@@ -11,6 +11,7 @@ require("awful.tooltip")
 require("beautiful")
 require("naughty")
 -- Custom modules
+require("scratch")              -- Dropdown window support
 require("tools.calendar")
 require("tools.smartplace")
 require("vicious")              -- Widgets library
@@ -201,6 +202,7 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "m"         , function ()  exec(mailer) end),
    awful.key({ winkey       }, "r"         , function ()  exec(dmenu) end),
    awful.key({ winkey       }, "c"         , function (c) exec(compmgr) end),
+   awful.key({ "Control"    }, "`"         , function ()  scratch.drop("pidgin", "bottom", "left", 0.2, 1) end),
 
    -- Media keys
    awful.key({ },  "XF86MonBrightnessDown" , function ()  exec("backlight-osd lower &>/dev/null") end),
