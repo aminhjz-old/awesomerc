@@ -33,20 +33,24 @@ local scount = screen.count()
 -----------------------------
 -- Preferred applications section
 -----------------------------
-local xlocker  = "slock"
+-- Default terminal
 local terminal = "urxvtc"
-local modeler  = "blender"
+-- Other apps
 local browser  = "firefox"
-local mailer   = "thunderbird"
+local compmgr  = "bash -c 'PID=$(pgrep -u $USER xcompmgr); [ -z $PID ] && (xcompmgr -n -F &>/dev/null &) || kill $PID'"
+local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-11'"
+                    .. "  -sb '" .. beautiful.bg_focus
+                    .. "' -sf '" .. beautiful.fg_focus
+                    .. "' -nb '" .. beautiful.bg_normal
+                    .. "' -nf '" .. beautiful.fg_normal
+                    .. "'"
 local editor   = os.getenv("EDITOR")
 local fileman  = terminal .. " -e mc"
-local compmgr  = "bash -c 'PID=$(pgrep -u $USER xcompmgr); [ -z $PID ] && (xcompmgr -n -F &>/dev/null &) || kill $PID'"
-local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-9'"
-    .. "  -sb '" .. beautiful.bg_focus
-    .. "' -sf '" .. beautiful.fg_focus
-    .. "' -nb '" .. beautiful.bg_normal
-    .. "' -nf '" .. beautiful.fg_normal
-    .. "'"
+local imclient = "pidgin"
+local mailer   = "thunderbird"
+local modeler  = "blender"
+local sysmon   = "conky -c " .. os.getenv("XDG_CONFIG_HOME") .. "/conkyrc"
+local xlocker  = "slock"
 
 -----------------------------
 -- Keyboard modifiers section
@@ -202,7 +206,8 @@ globalkeys = awful.util.table.join(
    awful.key({ winkey       }, "m"         , function ()  exec(mailer) end),
    awful.key({ winkey       }, "r"         , function ()  exec(dmenu) end),
    awful.key({ winkey       }, "c"         , function (c) exec(compmgr) end),
-   awful.key({ "Control"    }, "`"         , function ()  scratch.drop("pidgin", "bottom", "left", 0.2, 1) end),
+   awful.key({ winkey       }, "s"         , function ()  scratch.drop(sysmon, "bottom", "left", 0.2, 1) end),
+   awful.key({ "Control"    }, "`"         , function ()  scratch.drop(imclient, "bottom", "left", 0.2, 1) end),
 
    -- Media keys
    awful.key({ },  "XF86MonBrightnessDown" , function ()  exec("backlight-osd lower &>/dev/null") end),
@@ -321,16 +326,6 @@ memtxt = widget({ type = "textbox" })
 vicious.register(membar, vicious.widgets.mem, "$1", 1)
 vicious.register(memtxt, vicious.widgets.mem, "$2Mb", 1)
 
--- Network usage
-dnicon = widget({ type = "imagebox" })
-upicon = widget({ type = "imagebox" })
-dnicon.image = image(beautiful.widget_net)
-upicon.image = image(beautiful.widget_netup)
-netwidget = widget({ type = "textbox" })
-vicious.register(netwidget, vicious.widgets.net, '<span color="'
-                 .. beautiful.fg_netdn_widget ..'">${wlan0 down_kb}</span> <span color="'
-                 .. beautiful.fg_netup_widget ..'">${wlan0 up_kb}</span>', 1)
-
 -- Battery state
 baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
@@ -387,13 +382,12 @@ for s = 1, scount do
             layout = awful.widget.layout.horizontal.leftright
         },
         s == 1 and systray or nil,
-        separator, datewidget   , dateicon       ,
-        separator, volwidget    , volicon        ,
-        separator, batwidget    , baticon        ,
-        separator, upicon       , netwidget      , dnicon     ,
-        separator, memtxt       , membar.widget  , memicon    ,
-        separator,                cpugraph.widget, cpuicon    ,
-        separator, tasklist[s]  ,
+        separator, datewidget     , dateicon,
+        separator, batwidget      , baticon ,
+        separator, membar.widget  , memicon ,
+        separator, cpugraph.widget, cpuicon ,
+        separator, volwidget      , volicon ,
+        separator, tasklist[s]    ,
         ["layout"] = awful.widget.layout.horizontal.rightleft
     }
 end
@@ -550,7 +544,7 @@ client.add_signal("focus"   , function(c)
 -- Unfocus
 client.add_signal("unfocus" , function(c)
                                  c.border_color = beautiful.border_normal
-                                 c.opacity = 0.75
+                                 c.opacity = 0.85
                               end)
 
 -- Dbus test
