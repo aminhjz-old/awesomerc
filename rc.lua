@@ -38,7 +38,7 @@ local terminal = "urxvtc"
 -- Other apps
 local browser  = "firefox"
 local compmgr  = "bash -c 'PID=$(pgrep -u $USER xcompmgr); [ -z $PID ] && (xcompmgr -n -F &>/dev/null &) || kill $PID'"
-local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-11'"
+local dmenu    = "dmenu_run -b -i -p 'Run command:' -fn 'terminus-9'"
                     .. "  -sb '" .. beautiful.bg_focus
                     .. "' -sf '" .. beautiful.fg_focus
                     .. "' -nb '" .. beautiful.bg_normal
@@ -488,9 +488,7 @@ awful.rules.rules = {
    { -- MPlayer
       rule = { class = "MPlayer" },
       properties = {
-         switchtotag = true,
-         floating = true,
-         tag = tags[1][5]
+         floating = true
      }
    },
 
