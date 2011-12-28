@@ -1,6 +1,7 @@
 -- Main
 theme = {}
 theme.confdir       = awful.util.getdir("config")
+theme.wallpaper_cmd = { "/bin/false" }
 
 -- Styles
 theme.font      = "terminus 9"

@@ -165,7 +165,8 @@ globalkeys = awful.util.table.join(
    -- Exit and restart
    awful.key({ winkey,
                "Control"    }, "r"         , awesome.restart),
-   awful.key({ winkey       }, "x"         , awesome.quit),
+   awful.key({ winkey,
+               "Shift"      }, "q"         , awesome.quit),
 
    -- Client frame manipulation
    awful.key({ winkey,
@@ -268,7 +269,7 @@ clientkeys = awful.util.table.join(
    awful.key({ winkey       }, "F11"       , function (c)
                                                 c.fullscreen = not c.fullscreen
                                              end),
-   awful.key({ altkey       }, "F4"        , function (c)
+   awful.key({ winkey       }, "w"         , function (c)
                                                 c:kill()
                                              end),
    awful.key({ winkey       }, "space"     , function (c)
